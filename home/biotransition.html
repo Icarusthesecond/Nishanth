@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Montreal-Regular';
+            src: url('Montreal-Regular.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Montreal-Bold';
+            src: url('Montreal-Bold.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Montreal-Italic';
+            src: url('Montreal-Italic.woff') format('woff');
+        }
+        @font-face {
+            font-family: 'Galgo-Medium';
+            src: url('Galgo-Medium.woff') format('woff');
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+            background-color: black;
+            font-family: 'Montreal-Bold';
+            overflow: hidden;
+            flex-direction: column;
+            transition: height 1.5s ease-in-out, background-color 1.5s ease-in-out;
+        }
+
+        .transition-container {
+            position: relative;
+            height: 8rem;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .transition-text, .new-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: gray;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: fontChange 0.7s infinite alternate ease-in-out;
+        } 
+
+        .new-text {
+            color: black;
+            opacity: 0;
+            top: 150%;
+            transition: top 1.5s ease-in-out, opacity 1.5s ease-in-out;
+        }
+
+        @keyframes fontChange {
+            0% { font-family: 'Montreal-Regular'; color: gray; }
+            15%{ font-family: 'Courier New', Courier, monospace; color: darkgray; font-style: italic;}
+            30%{ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
+            45% { font-family: 'Montreal-Italic'; color: black; }
+            60%{ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; color:gray}
+            70%{ font-family: 'Times New Roman', Times, serif; color: gray;} 
+            80%{font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: black;}
+            90%{font-family: 'Galgo-Medium';color: gray;}
+            100% { font-family: 'Montreal-Bold'; color: darkgray; }
+        }
+    </style>
+</head>
+<body>
+    <div class="transition-container">
+        <div class="transition-text" id="text">BIOGRAPHY</div>
+        <div class="new-text" id="newText">BIOGRAPHY</div>
+    </div>
+    
+    <script>
+        setTimeout(() => {
+            document.body.style.height = "80vh";
+            document.body.style.backgroundColor = "white";
+            document.getElementById("text").style.transform = "translate(-50%, -150%)";
+            document.getElementById("newText").style.top = "50%";
+            document.getElementById("newText").style.opacity = "1";
+        }, 1000); // Start animation after 1s
+
+        setTimeout(() => {
+            window.location.href = "home.html"; // Change to your desired URL
+        }, 2500); // Redirect after 2.5s
+    </script>
+</body>
+</html>

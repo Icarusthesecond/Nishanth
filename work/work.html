@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works</title>
+    <style>
+                @font-face {
+            font-family: 'Montreal-Regular';
+            src: url('Montreal-Regular.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Montreal-Bold';
+            src: url('Montreal-Bold.woff') format('woff');
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: white;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .gallery {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 80px;
+            border-collapse: collapse;
+        }
+        .gallery td {
+            border: 2px solid black;
+            padding: 5px;
+            width: 50%;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .scroll-container {
+            top: 0;
+            left: 0;
+            width: auto;
+            height: 50px;
+            overflow: hidden;
+            position: fixed;
+            display: flex;
+            padding: 0;
+            white-space: nowrap;
+        }
+
+        .word-box {
+            width: 140px;
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            text-align: left;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .text-wrapper {
+            position: relative;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .text1, .text2 {
+            font-size: 35px;
+            font-family: 'Montreal-Bold';
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .text1 {
+            color: gray;
+        }
+        .text1 .w{
+            color: black;
+        }
+
+        .text2 {
+            color: black;
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .word-box:hover .text-wrapper {
+            transform: translateY(-100%);
+        }
+
+        .word-box:hover .text1 {
+            opacity: 0;
+        }
+
+        .word-box:hover .text2 {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="word-box"><div class="text-wrapper"><a class="text1" href="biotransition.html">Bio,</a><a class="text2" href="biotransition.html">Bio,</a></div></div>
+        <div class="word-box"><div class="text-wrapper"><a class="text1" href="#"><span class="w"> Works,</span></a><a class="text2" href="#">Works,</a></div></div>
+        <div class="word-box"><div class="text-wrapper"><a class="text1" href="mailto:nishanthnaidu268@gmail.com">Contacts</a><a class="text2" href="mailto:nishanthnaidu268@gmail.com">Contacts</a></div></div>
+    </div>
+    <table class="gallery" id="gallery"></table>
+    <script>
+        const gallery = document.getElementById("gallery");
+        const images = [
+            'https://source.unsplash.com/random/800x600',
+            'https://source.unsplash.com/random/801x601',
+            'https://source.unsplash.com/random/802x602',
+            'https://source.unsplash.com/random/803x603',
+            'https://source.unsplash.com/random/804x604',
+            'https://source.unsplash.com/random/805x605'
+        ];
+
+        for (let i = 0; i < images.length; i += 2) {
+            const row = document.createElement("tr");
+            const cell1 = document.createElement("td");
+            const cell2 = document.createElement("td");
+
+            const img1 = document.createElement("img");
+            img1.src = images[i];
+            cell1.appendChild(img1);
+
+            if (images[i + 1]) {
+                const img2 = document.createElement("img");
+                img2.src = images[i + 1];
+                cell2.appendChild(img2);
+            }
+            
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            gallery.appendChild(row);
+        }
+    </script>
+</body>
+</html>
