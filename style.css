@@ -1,0 +1,18 @@
+.first {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.scroll-text {
+    grid-column: 1;
+}
+
+.port {
+    grid-column: 2;
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+}
