@@ -143,29 +143,26 @@
             visibility: visible;
         }
 
-        .port {
-            width: 400px;
-            height: 605px;
-            top: 0;
-            left : 70%;
-            align-items: right;
-            position: relative;
-        }
         .first {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .scroll-text {
     grid-column: 1;
+    padding-right: 20px;
 }
 
 .port {
     grid-column: 2;
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    left: 0;
+    max-width: 400px;
+    object-fit: cover;
 }
     </style>
         <script defer>
