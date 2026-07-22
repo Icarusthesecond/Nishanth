@@ -3,101 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Works</title>
+    <title>Works Gallery</title>
+    <!-- Tailwind CSS for modern design and layout responsiveness -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-                @font-face {
-            font-family: 'Montreal-Regular';
-            src: url('../work/Montreal-Regular.woff') format('woff');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        @font-face {
-            font-family: 'Montreal-Bold';
-            src: url('../work/Montreal-Bold.woff') format('woff');
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            background-color: white;
+            background-color: #fafafa;
             overflow: hidden;
-            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
         }
-        .gallery {
-            width: 90%;
-            max-width: 1200px;
-            margin-top: 80px;
-            border-collapse: collapse;
+
+        /* Brutalist Minimalistic Grid Items */
+        .project-item {
+            font-size: 20px;
+            font-weight: 700;
+            padding: 24px;
+            border: 2px solid #111;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 130px;
+            text-decoration: none;
+            color: #111;
+            border-radius: 12px;
+            box-shadow: 0 4px 0px #111;
         }
-        .gallery td {
-            border: 2px solid black;
-            padding: 5px;
-            width: 50%;
+
+        .project-item:hover {
+            background: #111;
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 0px #111;
+            z-index: 10;
         }
-        .gallery img {
+
+        /* Floating Screenshots Overlay */
+        .screenshots-overlay {
+            position: fixed;
+            background: white;
+            border: 2.5px solid #111;
+            padding: 16px;
+            z-index: 10000;
+            width: 460px; /* Expanded for 16:9 layout */
+            height: 340px; /* Proportionate height for 16:9 content + titles + bullets */
+            display: none;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+            pointer-events: none; /* Allows smooth mouse move tracking underneath the popover */
+            border-radius: 16px;
+            transition: transform 0.1s ease-out;
+        }
+
+        .screenshots-overlay.visible {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .screenshot-container {
+            display: none;
             width: 100%;
-            height: auto;
+            height: calc(100% - 32px);
+        }
+
+        .screenshot-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screenshot-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .screenshot-image {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Enforced widescreen ratio */
             display: block;
-            transition: transform 0.3s ease-in-out;
+            border: 2px solid #111;
+            object-fit: cover;
+            border-radius: 8px;
         }
-        .gallery img:hover {
-            transform: scale(1.05);
+
+        /* Slideshow Navigation Bullets */
+        .slideshow-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            width: 100%;
         }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 1px solid #111;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #111;
+            transform: scale(1.2);
+        }
+
+        .overlay-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.03);
+            z-index: 9999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .overlay-backdrop.visible {
+            display: block;
+        }
+        
+        /* Interactive Marquee-style Header Navigation */
         .scroll-container {
             top: 0;
             left: 0;
-            width: auto;
-            height: 50px;
+            width: 100%;
+            height: 60px;
             overflow: hidden;
             position: fixed;
             display: flex;
-            padding: 0;
-            white-space: nowrap;
+            align-items: center;
+            padding: 0 40px;
+            background: white;
+            border-bottom: 2px solid #111;
+            z-index: 500;
         }
 
         .word-box {
-            width: 140px;
-            height: 50px;
+            height: 40px;
             overflow: hidden;
             position: relative;
-            text-align: left;
-            display: inline-block;
             cursor: pointer;
+            margin-right: 24px;
         }
 
         .text-wrapper {
             position: relative;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .text1, .text2 {
-            font-size: 35px;
-            font-family: 'Montreal-Bold';
+            font-size: 24px;
+            font-weight: 700;
             white-space: nowrap;
             text-decoration: none;
+            display: block;
+            line-height: 40px;
         }
 
         .text1 {
-            color: gray;
+            color: #888;
         }
-        .text1 .w{
-            color: black;
+        .text1 .w {
+            color: #111;
         }
 
         .text2 {
-            color: black;
+            color: #111;
             opacity: 0;
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
         }
 
         .word-box:hover .text-wrapper {
@@ -115,41 +212,234 @@
 </head>
 <body>
     <div class="scroll-container">
-        <div class="word-box"><div class="text-wrapper"><a class="text1" href="../home/biotransition.html">Bio,</a><a class="text2" href="../home/biotransition.html">Bio,</a></div></div>
-        <div class="word-box"><div class="text-wrapper"><a class="text1" href="#"><span class="w"> Works,</span></a><a class="text2" href="#">Works,</a></div></div>
-        <div class="word-box"><div class="text-wrapper"><a class="text1" href="mailto:nishanthnaidu268@gmail.com">Contacts</a><a class="text2" href="mailto:nishanthnaidu268@gmail.com">Contacts</a></div></div>
+        <div class="word-box">
+            <div class="text-wrapper">
+                <a class="text1" href="#">Bio,</a>
+                <a class="text2" href="#">Bio,</a>
+            </div>
+        </div>
+        <div class="word-box">
+            <div class="text-wrapper">
+                <a class="text1" href="#"><span class="w">Works,</span></a>
+                <a class="text2" href="#">Works,</a>
+            </div>
+        </div>
+        <div class="word-box">
+            <div class="text-wrapper">
+                <a class="text1" href="mailto:nishanthnaidu268@gmail.com">Contacts</a>
+                <a class="text2" href="mailto:nishanthnaidu268@gmail.com">Contacts</a>
+            </div>
+        </div>
     </div>
-    <table class="gallery" id="gallery"></table>
+
+    <!-- Active Backdrop for visual focus depth -->
+    <div class="overlay-backdrop" id="overlayBackdrop"></div>
+    
+    <!-- Floating Tracking Overlay -->
+    <div class="screenshots-overlay" id="screenshotsOverlay"></div>
+    
+    <!-- Responsive Portfolio Grid Layout -->
+    <div class="w-full max-w-6xl px-6 mt-16">
+        <h1 class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-4 text-center md:text-left">Interactive Showcase</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="projectsContainer"></div>
+    </div>
+
     <script>
-        const gallery = document.getElementById("gallery");
-        const images = [
-            'https://source.unsplash.com/random/800x600',
-            'https://source.unsplash.com/random/801x601',
-            'https://source.unsplash.com/random/802x602',
-            'https://source.unsplash.com/random/803x603',
-            'https://source.unsplash.com/random/804x604',
-            'https://source.unsplash.com/random/805x605'
+        // High fidelity images mapped explicitly to correct frame aspect sizes (16:9 ratio)
+        const projects = [
+            {
+                name: "CineScope",
+                url: "#",
+                screenshots: [
+                    { title: "Clean Landing Hero", url: "https://placehold.co/640x360/1e293b/ffffff?text=Portfolio+Homepage" },
+                    { title: "Dynamic Resume & Experience", url: "https://placehold.co/640x360/334155/ffffff?text=About+Section" }
+                ]
+            },
+            {
+                name: "AHAR Framework",
+                url: "#",
+                screenshots: [
+                    { title: "code", url: "image_c0e823.png" },
+                    { title: "output", url: "https://placehold.co/640x360/111827/ffffff?text=AHAR+Reconciliation+Output" }
+                ]
+            },
+            {
+                name: "Hate Speech Detector",
+                url: "#",
+                screenshots: [
+                    { title: "Admin Analytics Dashboard", url: "https://placehold.co/640x360/110c11/ffffff?text=Activity+Dashboard" },
+                    { title: "Draggable Kanban Details", url: "https://placehold.co/640x360/201224/ffffff?text=Task+Details" }
+                ]
+            },
+            {
+                name: "Encrypted Key Logger",
+                url: "#",
+                screenshots: [
+                    { title: "Real-time Metrics View", url: "https://placehold.co/640x360/0a192f/ffffff?text=Weather+Hub" },
+                    { title: "Extended Climate Forecast", url: "https://placehold.co/640x360/172a45/ffffff?text=Forecast+Panel" }
+                ]
+            },
+            {
+                name: "Linux System Audit Tool",
+                url: "#",
+                screenshots: [
+                    { title: "User Activity Stream", url: "https://placehold.co/640x360/0c1a1a/ffffff?text=Activity+Feed" },
+                    { title: "Custom Dashboard Config", url: "https://placehold.co/640x360/003333/ffffff?text=Profile+Analytics" }
+                ]
+            }
         ];
 
-        for (let i = 0; i < images.length; i += 2) {
-            const row = document.createElement("tr");
-            const cell1 = document.createElement("td");
-            const cell2 = document.createElement("td");
+        const projectsContainer = document.getElementById("projectsContainer");
+        const screenshotsOverlay = document.getElementById("screenshotsOverlay");
+        const overlayBackdrop = document.getElementById("overlayBackdrop");
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let slideshowInterval = null;
+        let currentScreenshotIndex = 0;
+        let currentProjectScreenshots = [];
 
-            const img1 = document.createElement("img");
-            img1.src = images[i];
-            cell1.appendChild(img1);
+        // Track global coordinates to dynamically move overlay target
+        document.addEventListener("mousemove", (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (screenshotsOverlay.classList.contains("visible")) {
+                positionOverlay();
+            }
+        });
 
-            if (images[i + 1]) {
-                const img2 = document.createElement("img");
-                img2.src = images[i + 1];
-                cell2.appendChild(img2);
+        // Generate Works Interface Grid Items
+        function renderProjects() {
+            projectsContainer.innerHTML = "";
+            projects.forEach((project, index) => {
+                const projectItem = document.createElement("a");
+                projectItem.className = "project-item";
+                projectItem.textContent = project.name;
+                projectItem.href = project.url;
+                projectItem.dataset.index = index;
+
+                projectItem.addEventListener("mouseenter", () => {
+                    showScreenshots(index);
+                });
+                
+                projectItem.addEventListener("mouseleave", () => {
+                    hideScreenshots();
+                });
+
+                projectsContainer.appendChild(projectItem);
+            });
+        }
+
+        // Show Slide Popover with complete tracking setup
+        function showScreenshots(index) {
+            const project = projects[index];
+            screenshotsOverlay.innerHTML = "";
+            currentProjectScreenshots = project.screenshots;
+            currentScreenshotIndex = 0;
+
+            // Append each viewport image container
+            project.screenshots.forEach((screenshot, i) => {
+                const container = document.createElement("div");
+                container.className = "screenshot-container";
+                container.dataset.index = i;
+
+                const title = document.createElement("div");
+                title.className = "screenshot-title";
+                title.textContent = screenshot.title;
+
+                const image = document.createElement("img");
+                image.className = "screenshot-image";
+                image.src = screenshot.url;
+                image.alt = screenshot.title;
+
+                container.appendChild(title);
+                container.appendChild(image);
+                screenshotsOverlay.appendChild(container);
+            });
+
+            // Append dynamic pagination indicators underneath images
+            const indicators = document.createElement("div");
+            indicators.className = "slideshow-indicators";
+            
+            project.screenshots.forEach((_, i) => {
+                const indicator = document.createElement("div");
+                indicator.className = "indicator";
+                if (i === 0) indicator.classList.add("active");
+                indicators.appendChild(indicator);
+            });
+            
+            screenshotsOverlay.appendChild(indicators);
+
+            screenshotsOverlay.classList.add("visible");
+            overlayBackdrop.classList.add("visible");
+            
+            showSlide(0);
+            positionOverlay();
+            startSlideshow();
+        }
+
+        // Active presentation handling
+        function showSlide(index) {
+            const containers = screenshotsOverlay.querySelectorAll(".screenshot-container");
+            const indicators = screenshotsOverlay.querySelectorAll(".indicator");
+            
+            containers.forEach((container, i) => {
+                container.classList.toggle("active", i === index);
+            });
+            
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle("active", i === index);
+            });
+            
+            currentScreenshotIndex = index;
+        }
+
+        function nextSlide() {
+            if (currentProjectScreenshots.length === 0) return;
+            const nextIndex = (currentScreenshotIndex + 1) % currentProjectScreenshots.length;
+            showSlide(nextIndex);
+        }
+
+        // Cycles every 2 seconds automatically while hovering
+        function startSlideshow() {
+            clearInterval(slideshowInterval);
+            slideshowInterval = setInterval(nextSlide, 2000);
+        }
+
+        // Precision alignment mapping to keep element dynamic and responsive within client boundaries
+        function positionOverlay() {
+            const overlayWidth = 460;  // Match stylesheet width
+            const overlayHeight = 340; // Match stylesheet height
+            
+            let left = mouseX + 24;
+            let top = mouseY + 24;
+            
+            // Constrain width boundaries
+            if (left + overlayWidth > window.innerWidth) {
+                left = mouseX - overlayWidth - 24;
+            }
+            // Constrain height boundaries
+            if (top + overlayHeight > window.innerHeight) {
+                top = window.innerHeight - overlayHeight - 24;
+            }
+            if (top < 0) {
+                top = 24;
             }
             
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            gallery.appendChild(row);
+            screenshotsOverlay.style.left = left + "px";
+            screenshotsOverlay.style.top = top + "px";
         }
+
+        // Teardown slideshow cycle on pointer exit
+        function hideScreenshots() {
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+            currentProjectScreenshots = [];
+            screenshotsOverlay.classList.remove("visible");
+            overlayBackdrop.classList.remove("visible");
+        }
+
+        renderProjects();
     </script>
 </body>
 </html>
