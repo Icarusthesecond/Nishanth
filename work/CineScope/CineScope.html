@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineScope | Case Study & Project Architecture</title>
+    <style>
+        @font-face {
+            font-family: 'Montreal-Regular';
+            src: url('../home/Montreal-Regular.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Montreal-Bold';
+            src: url('../home/Montreal-Bold.woff') format('woff');
+        }
+
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --border-color: #222222;
+            --accent-color: #e50914;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --font-main: 'Montreal-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-bold: 'Montreal-Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, .card-title, .section-heading, .project-title {
+            font-family: var(--font-bold);
+        }
+
+        /* Navigation Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero / Overview */
+        .project-hero {
+            margin-bottom: 4rem;
+        }
+
+        .project-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .project-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tag {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-heading {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 850px;
+        }
+
+        /* Image Grid Layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            border-color: #333333;
+        }
+
+        .gallery-img-wrapper {
+            width: 100%;
+            height: 220px;
+            background-color: #000000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-info {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-path {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .card-description {
+            font-size: 0.88rem;
+            color: #cccccc;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .card-features {
+            list-style-type: disc;
+            padding-left: 1.1rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .card-features li {
+            margin-bottom: 0.35rem;
+        }
+
+        /* Database Architecture Section */
+        .db-overview {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .db-overview h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .db-overview ul {
+            list-style-type: square;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .db-overview li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../work/work.html" class="back-link">&larr; Back to Works</a>
+        <span class="back-link">Project Documentation</span>
+    </header>
+
+    <main>
+        <!-- Project Hero Section -->
+        <div class="project-hero">
+            <h1 class="project-title">CineScope</h1>
+            <p class="project-subtitle">
+                A full-stack web media streaming platform built with custom PHP and MySQL backend architecture[cite: 1]. CineScope provides catalog discovery, video playback, authentication modules, and a comprehensive administrative portal for content control[cite: 1].
+            </p>
+            <div class="tech-tags">
+                <span class="tag">PHP</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">HTML5 / CSS3</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Relational Database Design</span>
+                <span class="tag">Role-Based Access Control</span>
+            </div>
+        </div>
+
+        <!-- Section 1: User Interfaces -->
+        <section>
+            <h2 class="section-heading">01. User Interface & Media Streaming Platform</h2>
+            <p class="section-desc">
+                The public and user-facing modules handle onboarding, identity management, content discovery, and adaptive media streaming[cite: 1]. Users can browse categorized libraries across Movies, Web Series, Anime, and Dramas with full playback support[cite: 1].
+            </p>
+
+            <div class="gallery-grid">
+                <!-- First Page -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/firstpage.png" alt="First Page" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">First Page</h3>
+                            <span class="card-path">CineScope/firstpage.png</span>
+                            <p class="card-description">The main entry portal presenting the platform's brand identity, featured titles, and access points for authentication[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Landing page header with navigation links to Login and Registration[cite: 1].</li>
+                            <li>Minimalist interface designed for streamlined user experience[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Login View -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 141053.png" alt="Login View" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Login View</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 141053.png</span>
+                            <p class="card-description">Authentication interface providing dual portal routes for registered regular users and system administrators[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Validates credentials against `logindetailss` and `adminloginn` tables[cite: 1].</li>
+                            <li>Password security managed via MD5 string hashing algorithms[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Registration View -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 141604.png" alt="Registration View" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Registration View</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 141604.png</span>
+                            <p class="card-description">User onboarding form capturing profile parameters and establishing credential entries[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Form fields for Name, Email, Phone Number, and Password[cite: 1].</li>
+                            <li>Mandatory terms & conditions agreement checkbox before submission[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- User Login Interface -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 155235.png" alt="User Login Interface" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">User Login Interface</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 155235.png</span>
+                            <p class="card-description">Dedicated standard user portal input form for establishing active session state[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Form validation for registered accounts[cite: 1].</li>
+                            <li>Direct session link to the primary user media catalog[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Dashboard -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 140636.png" alt="Main Dashboard" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Main Dashboard</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 140636.png</span>
+                            <p class="card-description">The central content discovery hub organizing media items by specific category blocks[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Grid layout rendering content dynamically from MySQL database queries[cite: 1].</li>
+                            <li>Navigation links across Movies, Web Series, Anime, and K-Dramas[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Media Stream Interface -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 143943.png" alt="Media Stream Interface" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Media Stream Interface</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 143943.png</span>
+                            <p class="card-description">Primary video viewing environment integrated with media playback control mechanisms[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>HTML5 video player embedding native playback, volume, and expansion controls[cite: 1].</li>
+                            <li>Automated JavaScript redirection upon video end state[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Anime Streaming View -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 153200.png" alt="Anime Streaming View" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Anime Streaming View</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 153200.png</span>
+                            <p class="card-description">Specialized catalog gallery view filtering for serialized animation content[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Queries `animee` MySQL table for media URIs and metadata[cite: 1].</li>
+                            <li>Displays custom poster thumbnails and title attributes[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Video Player with Description -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 153925.png" alt="Video Player with Description" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Video Player with Description</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 153925.png</span>
+                            <p class="card-description">Integrated playback layout mapping synchronized title descriptions and metadata below the stream[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Dynamic metadata fetching corresponding to selected video ID[cite: 1].</li>
+                            <li>Clean structural layout combining playback controls and textual context[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Exit Confirmation Modal -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 155131.png" alt="Exit Confirmation Modal" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Exit Confirmation Modal</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 155131.png</span>
+                            <p class="card-description">Session termination dialog preventing accidental sign-outs during active navigation[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>JavaScript pop-up prompt confirming user intent[cite: 1].</li>
+                            <li>Destroys active PHP session variables upon confirmed logout[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Administrative Control Portal -->
+        <section>
+            <h2 class="section-heading">02. Administrative Management & Operations</h2>
+            <p class="section-desc">
+                An isolated control center giving administrators complete CRUD capabilities across the media collection and active user base[cite: 1]. Features dedicated upload flows and category-specific deletion protocols[cite: 1].
+            </p>
+
+            <div class="gallery-grid">
+                <!-- Admin Management Portal -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160945.png" alt="Admin Management Portal" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Admin Management Portal</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160945.png</span>
+                            <p class="card-description">The main administrative control panel providing portal links for content addition and database modifications[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Role-gated access linked to `adminloginn` records[cite: 1].</li>
+                            <li>Central switchboard for upload and deletion operations[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Upload Video - Anime -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/anime.png" alt="Upload Video - Anime" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Upload Video - Anime</h3>
+                            <span class="card-path">CineScope/anime.png</span>
+                            <p class="card-description">Administrative upload form configured specifically for ingesting new animation titles[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Uploads video files and thumbnail images to local server directories[cite: 1].</li>
+                            <li>Writes path pointers and titles to the `animee` MySQL table[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Upload Video - Drama -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/drama.png" alt="Upload Video - Drama" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Upload Video - Drama</h3>
+                            <span class="card-path">CineScope/drama.png</span>
+                            <p class="card-description">Content management form handling drama series uploads into the localized storage structure[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Captures video binary files, wallpaper assets, and description strings[cite: 1].</li>
+                            <li>Inserts structured records into the `kdramaa` relational database table[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Upload Video - Movie -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/movie.png" alt="Upload Video - Movie" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Upload Video - Movie</h3>
+                            <span class="card-path">CineScope/movie.png</span>
+                            <p class="card-description">Feature film submission interface for publishing standalone motion pictures to the catalog[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Configured with file input handlers for MP4/video media[cite: 1].</li>
+                            <li>Synchronizes file path strings with the `moviess` table[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Upload Video - Web Series -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/web.png" alt="Upload Video - Web Series" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Upload Video - Web Series</h3>
+                            <span class="card-path">CineScope/web.png</span>
+                            <p class="card-description">Serialized web content ingestion module for uploading episode entries[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Stores video assets within designated server path structures[cite: 1].</li>
+                            <li>Updates relational rows in the `webseriess` table[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Admin Delete Portal -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 161050.png" alt="Admin Delete Portal" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Admin Delete Portal</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 161050.png</span>
+                            <p class="card-description">Management view for selecting category targets for content removal operations[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Category-level controls to navigate removal requests[cite: 1].</li>
+                            <li>Protects database integrity via targeted SQL queries[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete Web Episode -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160249.png" alt="Delete Web Episode" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete Web Episode</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160249.png</span>
+                            <p class="card-description">Specific administrative tool targeting individual web series entry removals[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Executes SQL `DELETE` queries matching specific record IDs[cite: 1].</li>
+                            <li>Removes associated file reference points from the database[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete Movie -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160355.png" alt="Delete Movie" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete Movie</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160355.png</span>
+                            <p class="card-description">Movie catalog pruning interface for removing outdated standalone film records[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Lists registered movie entries with direct deletion triggers[cite: 1].</li>
+                            <li>Updates the `moviess` database table instantaneously[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete Anime Episode -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160419.png" alt="Delete Anime Episode" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete Anime Episode</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160419.png</span>
+                            <p class="card-description">Targeted deletion tool for managing and purging anime series content[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Identifies specific animation records for drop commands[cite: 1].</li>
+                            <li>Keeps the `animee` table cleaned and indexed[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete Drama Episode -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160448.png" alt="Delete Drama Episode" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete Drama Episode</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160448.png</span>
+                            <p class="card-description">Drama media management form executing targeted row removals[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Directly interacts with the `kdramaa` database table[cite: 1].</li>
+                            <li>Eliminates stale or corrupted video stream references[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete Web Episode View -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 160547.png" alt="Delete Web Episode View" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete Web Episode View</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 160547.png</span>
+                            <p class="card-description">Expanded view list displaying active web series episodes available for deletion[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Renders current table records in a structured view for admin selection[cite: 1].</li>
+                            <li>Includes action confirmation prompts to prevent unintended data loss[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Delete User -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/user.png" alt="Delete User" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Delete User</h3>
+                            <span class="card-path">CineScope/user.png</span>
+                            <p class="card-description">User management control screen allowing administrators to prune registered user accounts[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Queries registered account profiles in `userdetailss`[cite: 1].</li>
+                            <li>Executes account purge and credential invalidation[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Database & Architecture -->
+        <section>
+            <h2 class="section-heading">03. Backend Database Architecture</h2>
+            
+            <div class="db-overview">
+                <h3>Relational Schema Overview</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+                    The backend MySQL database (`cinescope_admin`) is structured around distinct media tables optimized for efficient indexing, user authentication mapping, and metadata retrieval across distinct media formats[cite: 1]:
+                </p>
+                <ul>
+                    <li><strong>Users Table (`userdetailss`):</strong> Manages user profile attributes, contact data, and MD5-encrypted security keys[cite: 1].</li>
+                    <li><strong>Movies Table (`moviess`):</strong> Stores standalone media file paths, cover art locations, descriptions, and title attributes[cite: 1].</li>
+                    <li><strong>Web Series & Drama Tables (`webseriess`, `kdramaa`):</strong> Structures serialized media entries with media resource URIs[cite: 1].</li>
+                    <li><strong>Anime Table (`animee`):</strong> Maintains metadata tables designed for animation title querying and video source mapping[cite: 1].</li>
+                </ul>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Database Schema Overview -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/Screenshot 2023-07-21 161143.png" alt="Database Schema Overview" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Database Schema Overview</h3>
+                            <span class="card-path">CineScope/Screenshot 2023-07-21 161143.png</span>
+                            <p class="card-description">phpMyAdmin relational overview showing table relationships and structure within `cinescope_admin`[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Centralized structure with isolated tables per content category[cite: 1].</li>
+                            <li>Optimized field data types for file path URIs and hashes[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Database Records - Web Series -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/webseries.png" alt="Database Records - Web Series" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Database Records - Web Series</h3>
+                            <span class="card-path">CineScope/webseries.png</span>
+                            <p class="card-description">SQL row entries inside the `webseriess` table mapping content names to storage file paths[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Stores video paths, wallpaper image references, and title strings[cite: 1].</li>
+                            <li>Primary keys ensure fast indexed lookup queries[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Database Records - Drama -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/dramadb.png" alt="Database Records - Drama" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Database Records - Drama</h3>
+                            <span class="card-path">CineScope/dramadb.png</span>
+                            <p class="card-description">Database table records within `kdramaa` managing localized metadata for drama shows[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Maps media IDs directly to frontend gallery elements[cite: 1].</li>
+                            <li>Houses target URLs for HTML5 player video source injection[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Database Records - Movies -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrapper">
+                        <img src="CineScope/movies.png" alt="Database Records - Movies" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="card-title">Database Records - Movies</h3>
+                            <span class="card-path">CineScope/movies.png</span>
+                            <p class="card-description">Backend storage rows within `moviess` driving the main motion picture section of the site[cite: 1].</p>
+                        </div>
+                        <ul class="card-features">
+                            <li>Stores film titles, local media directory paths, and thumbnail locations[cite: 1].</li>
+                            <li>Supports dynamic PHP SQL fetch queries during gallery rendering[cite: 1].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; CineScope Project Documentation — Designed for Portfolio Integration</p>
+    </footer>
+
+</body>
+</html>
