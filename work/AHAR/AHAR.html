@@ -7,11 +7,12 @@
     <style>
         :root {
             --bg-color: #000000;
-            --card-bg: #f8fafc;
+            --card-bg: #1e293b;
             --heading-color: #566f8e;
             --accent-blue: #133765;
+            --accent-light-blue: #38bdf8;
             --text-main: #ffffff;
-            --border-color: #e2e8f0;
+            --border-color: #334155;
         }
 
         * {
@@ -31,7 +32,7 @@
         nav {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--border-color);
             padding: 1rem 2rem;
@@ -44,7 +45,7 @@
         nav .nav-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--accent-blue);
+            color: var(--accent-light-blue);
             text-decoration: none;
         }
 
@@ -60,7 +61,7 @@
         }
 
         nav .nav-back:hover {
-            color: var(--accent-blue);
+            color: var(--accent-light-blue);
         }
 
         /* Container */
@@ -91,7 +92,7 @@
 
         header.hero h1 {
             font-size: 2.75rem;
-            color: #ffffff;
+            color: var(--heading-color);
             line-height: 1.2;
             margin-bottom: 1rem;
             font-weight: 800;
@@ -130,7 +131,7 @@
         }
 
         .highlight-text {
-            color: var(--accent-blue);
+            color: var(--accent-light-blue);
             font-weight: 700;
         }
 
@@ -162,7 +163,7 @@
 
         .metric-card {
             background-color: var(--card-bg);
-            border-left: 4px solid var(--accent-blue);
+            border-left: 4px solid var(--accent-light-blue);
             border-top: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
@@ -173,7 +174,7 @@
         .metric-card .number {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--accent-blue);
+            color: var(--accent-light-blue);
             line-height: 1;
             margin-bottom: 0.5rem;
         }
@@ -202,7 +203,7 @@
         .showcase-header {
             padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -225,7 +226,7 @@
         .dropdown-controls label {
             font-weight: 700;
             font-size: 0.95rem;
-            color: #000000;
+            color: var(--text-main);
             margin-right: 0.5rem;
         }
 
@@ -233,16 +234,16 @@
             padding: 0.5rem 0.8rem;
             font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-main);
-            background-color: #ffffff;
-            border: 2px solid var(--accent-blue);
+            color: #ffffff;
+            background-color: var(--bg-color);
+            border: 2px solid var(--accent-light-blue);
             border-radius: 6px;
             cursor: pointer;
         }
 
         .img-container {
             width: 100%;
-            background-color: #0f172a;
+            background-color: #020617;
             padding: 1.5rem;
             text-align: center;
         }
@@ -251,7 +252,7 @@
             max-width: 100%;
             height: auto;
             border-radius: 6px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
         }
 
         /* Footer */
