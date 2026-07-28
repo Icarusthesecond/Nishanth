@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AHAR - Automated Historical Access Review | Case Study</title>
     <style>
+        @font-face {
+            font-family: 'Montreal-Regular';
+            src: url('../home/Montreal-Regular.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Montreal-Bold';
+            src: url('../home/Montreal-Bold.woff') format('woff');
+        }
+
         :root {
             --bg-color: #000000;
             --card-bg: #1e293b;
@@ -22,46 +32,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Montreal-Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
-        }
-
-        /* Top Navigation Bar */
-        nav {
-            position: sticky;
-            top: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav .nav-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-light-blue);
-            text-decoration: none;
-        }
-
-        nav .nav-back {
-            color: var(--heading-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        nav .nav-back:hover {
-            color: var(--accent-light-blue);
         }
 
         /* Container */
@@ -71,8 +45,33 @@
             padding: 3rem 1.5rem;
         }
 
+        /* Top Navigation Bar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .back-link {
+            color: var(--text-secondary, #94a3b8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+            font-family: 'Montreal-Bold', sans-serif;
+        }
+
+        .back-link:hover {
+            color: var(--text-main);
+        }
+
         /* Hero Section */
-        header.hero {
+        main {
             margin-bottom: 3.5rem;
             text-align: left;
         }
@@ -82,7 +81,7 @@
             background-color: var(--accent-blue);
             color: #ffffff;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-family: 'Montreal-Bold', sans-serif;
             padding: 0.35rem 0.85rem;
             border-radius: 20px;
             text-transform: uppercase;
@@ -90,15 +89,15 @@
             margin-bottom: 1rem;
         }
 
-        header.hero h1 {
+        main h1 {
             font-size: 2.75rem;
             color: var(--heading-color);
             line-height: 1.2;
             margin-bottom: 1rem;
-            font-weight: 800;
+            font-family: 'Montreal-Bold', sans-serif;
         }
 
-        header.hero p.tagline {
+        main p.tagline {
             font-size: 1.25rem;
             color: var(--text-main);
             max-width: 800px;
@@ -119,6 +118,7 @@
         .meta-item h4 {
             color: var(--heading-color);
             font-size: 0.85rem;
+            font-family: 'Montreal-Bold', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 0.35rem;
@@ -126,13 +126,13 @@
 
         .meta-item p {
             color: var(--text-main);
-            font-weight: 600;
+            font-family: 'Montreal-Bold', sans-serif;
             font-size: 1rem;
         }
 
         .highlight-text {
             color: var(--accent-light-blue);
-            font-weight: 700;
+            font-family: 'Montreal-Bold', sans-serif;
         }
 
         /* Sections */
@@ -143,6 +143,7 @@
         section h2 {
             font-size: 1.85rem;
             color: var(--heading-color);
+            font-family: 'Montreal-Bold', sans-serif;
             margin-bottom: 1.25rem;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
@@ -151,6 +152,10 @@
         p {
             margin-bottom: 1rem;
             font-size: 1.05rem;
+        }
+
+        strong {
+            font-family: 'Montreal-Bold', sans-serif;
         }
 
         /* Metrics Grid */
@@ -173,7 +178,7 @@
 
         .metric-card .number {
             font-size: 2.5rem;
-            font-weight: 800;
+            font-family: 'Montreal-Bold', sans-serif;
             color: var(--accent-light-blue);
             line-height: 1;
             margin-bottom: 0.5rem;
@@ -182,7 +187,7 @@
         .metric-card .label {
             font-size: 0.95rem;
             color: var(--text-main);
-            font-weight: 600;
+            font-family: 'Montreal-Bold', sans-serif;
         }
 
         /* Gallery & Screenshot Showcase */
@@ -213,6 +218,7 @@
 
         .showcase-header-text h3 {
             color: var(--heading-color);
+            font-family: 'Montreal-Bold', sans-serif;
             font-size: 1.2rem;
         }
 
@@ -224,7 +230,7 @@
 
         /* Persona Dropdown Styling */
         .dropdown-controls label {
-            font-weight: 700;
+            font-family: 'Montreal-Bold', sans-serif;
             font-size: 0.95rem;
             color: var(--text-main);
             margin-right: 0.5rem;
@@ -233,7 +239,7 @@
         .dropdown-controls select {
             padding: 0.5rem 0.8rem;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-family: 'Montreal-Bold', sans-serif;
             color: #ffffff;
             background-color: var(--bg-color);
             border: 2px solid var(--accent-light-blue);
@@ -261,21 +267,22 @@
             padding: 2.5rem 1rem;
             border-top: 1px solid var(--border-color);
             color: var(--text-main);
-            font-weight: 500;
+            font-family: 'Montreal-Regular', sans-serif;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navbar -->
-    <nav>
-        <a href="../work.html" class="nav-back">← Back to Works</a>
-    </nav>
-
     <div class="container">
         
+        <!-- Top Navbar placed inside container -->
+        <header>
+            <a href="../work.html" class="back-link">&larr; Back to Works</a>
+            <span class="back-link">Project Documentation</span>
+        </header>
+
         <!-- Hero Header -->
-        <header class="hero">
+        <main>
             <span class="category-badge">Cloud Security & Identity Engineering</span>
             <h1>Automated Historical Access Review (AHAR)</h1>
             <p class="tagline">An out-of-band identity governance engine that eliminates over-privileged cloud access by converting historical <span class="highlight-text">AWS CloudTrail telemetry</span> into deterministic, least-privilege IAM policies.</p>
@@ -298,84 +305,84 @@
                     <p>Out-of-Band / Async</p>
                 </div>
             </div>
-        </header>
 
-        <!-- Executive Summary -->
-        <section>
-            <h2>01. Executive Overview</h2>
-            <p>Modern cloud environments frequently suffer from the <span class="highlight-text">Over-Privilege Gap</span>—the discrepancy between assigned structural administrative rights and actual daily operational needs. To minimize developer friction, roles are often provisioned with wildcards (e.g., <code>"Action": "*"</code>).</p>
-            <p>AHAR solves this challenge through deterministic set theory and time-window filtering. Rather than relying on unpredictable machine learning models, AHAR analyzes CloudTrail logs, prunes background noise, and mathematically enforces the Principle of Least Privilege (PoLP) without breaking critical administrative workflows.</p>
+            <!-- Executive Summary -->
+            <section style="margin-top: 3.5rem;">
+                <h2>01. Executive Overview</h2>
+                <p>Modern cloud environments frequently suffer from the <span class="highlight-text">Over-Privilege Gap</span>—the discrepancy between assigned structural administrative rights and actual daily operational needs. To minimize developer friction, roles are often provisioned with wildcards (e.g., <code>"Action": "*"</code>).</p>
+                <p>AHAR solves this challenge through deterministic set theory and time-window filtering. Rather than relying on unpredictable machine learning models, AHAR analyzes CloudTrail logs, prunes background noise, and mathematically enforces the Principle of Least Privilege (PoLP) without breaking critical administrative workflows.</p>
 
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="number" id="cardReduction">99.86%</div>
-                    <div class="label">Average Surface Area Pruned</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="number" id="cardReduction">99.86%</div>
+                        <div class="label">Average Surface Area Pruned</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="number">0%</div>
+                        <div class="label">Production Latency Overhead</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="number">100%</div>
+                        <div class="label">Deterministic Audit Precision</div>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="number">0%</div>
-                    <div class="label">Production Latency Overhead</div>
-                </div>
-                <div class="metric-card">
-                    <div class="number">100%</div>
-                    <div class="label">Deterministic Audit Precision</div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- System Pipeline -->
-        <section>
-            <h2>02. Architecture & Pipeline</h2>
-            <p>The AHAR engine processes telemetry through a clean 4-phase unidirectional architecture:</p>
-            <p><strong>1. Telemetry Ingestion:</strong> Asynchronously ingests raw CloudTrail CSV flat files and normalizes events into standardized <code>Service:Action</code> strings.</p>
-            <p><strong>2. Temporal & Diurnal Slicing:</strong> Removes weekend logs and restricts active parsing to business hours (9:00 AM – 6:00 PM) to isolate real human activity from automated machine cron jobs.</p>
-            <p><strong>3. Set-Theoretic Union:</strong> Calculates the union $E \cup B$ between observed empirical actions ($E$) and an immutable Mandatory Security Baseline ($B$) to completely solve the cold-start problem.</p>
-            <p><strong>4. Clean-Slate JSON Compilation:</strong> Compiles fresh, compliant AWS IAM JSON manifest files from scratch using an implicit-deny strategy.</p>
-        </section>
+            <!-- System Pipeline -->
+            <section>
+                <h2>02. Architecture & Pipeline</h2>
+                <p>The AHAR engine processes telemetry through a clean 4-phase unidirectional architecture:</p>
+                <p><strong>1. Telemetry Ingestion:</strong> Asynchronously ingests raw CloudTrail CSV flat files and normalizes events into standardized <code>Service:Action</code> strings.</p>
+                <p><strong>2. Temporal & Diurnal Slicing:</strong> Removes weekend logs and restricts active parsing to business hours (9:00 AM – 6:00 PM) to isolate real human activity from automated machine cron jobs.</p>
+                <p><strong>3. Set-Theoretic Union:</strong> Calculates the union $E \cup B$ between observed empirical actions ($E$) and an immutable Mandatory Security Baseline ($B$) to completely solve the cold-start problem.</p>
+                <p><strong>4. Clean-Slate JSON Compilation:</strong> Compiles fresh, compliant AWS IAM JSON manifest files from scratch using an implicit-deny strategy.</p>
+            </section>
 
-        <!-- Visual Case Study / Screenshots -->
-        <section>
-            <h2>03. Execution & Synthesized Outputs</h2>
-            <p>Below are the empirical execution logs and generated least-privilege IAM policy manifests captured from the AHAR security operations suite.</p>
+            <!-- Visual Case Study / Screenshots -->
+            <section>
+                <h2>03. Execution & Synthesized Outputs</h2>
+                <p>Below are the empirical execution logs and generated least-privilege IAM policy manifests captured from the AHAR security operations suite.</p>
 
-            <div class="showcase-grid">
-                
-                <!-- Terminal Code Execution -->
-                <div class="showcase-item">
-                    <div class="showcase-header">
-                        <div class="showcase-header-text">
-                            <h3>Engine Terminal Execution Log</h3>
-                            <p>Real-time processing log demonstrating asynchronous ingestion, noise reduction, and persona segregation.</p>
+                <div class="showcase-grid">
+                    
+                    <!-- Terminal Code Execution -->
+                    <div class="showcase-item">
+                        <div class="showcase-header">
+                            <div class="showcase-header-text">
+                                <h3>Engine Terminal Execution Log</h3>
+                                <p>Real-time processing log demonstrating asynchronous ingestion, noise reduction, and persona segregation.</p>
+                            </div>
+                        </div>
+                        <div class="img-container">
+                            <img src="Code.png" alt="AHAR Engine Code Execution Screenshot">
                         </div>
                     </div>
-                    <div class="img-container">
-                        <img src="Code.png" alt="AHAR Engine Code Execution Screenshot">
-                    </div>
-                </div>
 
-                <!-- Interactive Dropdown Switcher for Policies -->
-                <div class="showcase-item">
-                    <div class="showcase-header">
-                        <div class="showcase-header-text">
-                            <h3 id="policyTitle">Hardened Network Admin Policy</h3>
-                            <p id="policyDesc">Synthesized JSON manifest restricting network operations strictly to EC2 metadata and VPC read operations.</p>
+                    <!-- Interactive Dropdown Switcher for Policies -->
+                    <div class="showcase-item">
+                        <div class="showcase-header">
+                            <div class="showcase-header-text">
+                                <h3 id="policyTitle">Hardened Network Admin Policy</h3>
+                                <p id="policyDesc">Synthesized JSON manifest restricting network operations strictly to EC2 metadata and VPC read operations.</p>
+                            </div>
+                            <div class="dropdown-controls">
+                                <label for="personaSelect">Select Persona:</label>
+                                <select id="personaSelect" onchange="updatePersona()">
+                                    <option value="NetworkAdmin">AHAR_Toxic_NetworkAdmin</option>
+                                    <option value="Auditor">AHAR_Toxic_Auditor</option>
+                                    <option value="DataScientist">AHAR_Toxic_DataScientist</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="dropdown-controls">
-                            <label for="personaSelect">Select Persona:</label>
-                            <select id="personaSelect" onchange="updatePersona()">
-                                <option value="NetworkAdmin">AHAR_Toxic_NetworkAdmin</option>
-                                <option value="Auditor">AHAR_Toxic_Auditor</option>
-                                <option value="DataScientist">AHAR_Toxic_DataScientist</option>
-                            </select>
+                        <div class="img-container">
+                            <img id="policyImg" src="Network Admin policy.png" alt="Generated Policy Screenshot">
                         </div>
                     </div>
-                    <div class="img-container">
-                        <img id="policyImg" src="Network Admin policy.png" alt="Generated Policy Screenshot">
-                    </div>
+
                 </div>
+            </section>
 
-            </div>
-        </section>
-
+        </main>
     </div>
 
     <footer>
@@ -419,5 +426,6 @@
             document.getElementById("metaReduction").innerText = `${data.reduction} Average`;
         }
     </script>
+
 </body>
 </html>
