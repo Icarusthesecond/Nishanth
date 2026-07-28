@@ -3,191 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AHAR - Automated Historical Access Review Dashboard</title>
+    <title>AHAR - Automated Historical Access Review | Case Study</title>
     <style>
         :root {
-            --bg-color: #ffffff;
+            --bg-color: #000000;
             --card-bg: #f8fafc;
             --heading-color: #566f8e;
             --accent-blue: #133765;
-            --text-main: #000000;
+            --text-main: #ffffff;
             --border-color: #e2e8f0;
         }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            margin: 0;
-            padding: 2rem;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
+        /* Top Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        header {
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 1rem;
+        nav .nav-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-decoration: none;
         }
 
-        h1, h3 {
+        nav .nav-back {
             color: var(--heading-color);
-            margin: 0 0 0.5rem 0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .subtitle {
-            color: var(--text-main);
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+        nav .nav-back:hover {
             color: var(--accent-blue);
         }
 
-        .control-group {
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* Hero Section */
+        header.hero {
+            margin-bottom: 3.5rem;
+            text-align: left;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 1rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            font-weight: bold;
+        header.hero h1 {
+            font-size: 2.75rem;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 800;
         }
 
-        select {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--bg-color);
+        header.hero p.tagline {
+            font-size: 1.25rem;
             color: var(--text-main);
-            border: 2px solid var(--accent-blue);
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 500;
+            max-width: 800px;
+            margin-bottom: 2rem;
         }
 
-        .image-container {
-            width: 100%;
-            text-align: center;
-            background-color: #0f172a;
+        /* Meta Grid */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1rem;
-            box-sizing: border-box;
+            border-radius: 8px;
         }
 
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        .meta-item h4 {
+            color: var(--heading-color);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.35rem;
+        }
+
+        .meta-item p {
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 1rem;
         }
 
         .highlight-text {
             color: var(--accent-blue);
-            font-weight: bold;
+            font-weight: 700;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        section h2 {
+            font-size: 1.85rem;
+            color: var(--heading-color);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent-blue);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem;
+        }
+
+        .metric-card .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-card .label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Gallery & Screenshot Showcase */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .showcase-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .showcase-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .showcase-header-text h3 {
+            color: var(--heading-color);
+            font-size: 1.2rem;
+        }
+
+        .showcase-header-text p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            color: var(--text-main);
+        }
+
+        /* Persona Dropdown Styling */
+        .dropdown-controls label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-right: 0.5rem;
+        }
+
+        .dropdown-controls select {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background-color: #ffffff;
+            border: 2px solid var(--accent-blue);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .img-container {
+            width: 100%;
+            background-color: #0f172a;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>AHAR Security Operations Center</h1>
-        <p class="subtitle">Automated Historical Access Review & IAM Synthesis Dashboard</p>
-    </header>
+    <!-- Top Navbar -->
+    <nav>
+        <a href="#" class="nav-title">AHAR Case Study</a>
+        <a href="../index.html" class="nav-back">← Back to Works</a>
+    </nav>
 
-    <div class="grid">
-        <div class="card">
-            <h3>Persona Selection</h3>
-            <div class="control-group">
-                <label for="personaSelect">Select Target User Persona:</label>
-                <select id="personaSelect" onchange="updateDashboard()">
-                    <option value="NetworkAdmin">AHAR_Toxic_NetworkAdmin</option>
-                    <option value="Auditor">AHAR_Toxic_Auditor</option>
-                    <option value="DataScientist">AHAR_Toxic_DataScientist</option>
-                </select>
+    <div class="container">
+        
+        <!-- Hero Header -->
+        <header class="hero">
+            <span class="category-badge">Cloud Security & Identity Engineering</span>
+            <h1>Automated Historical Access Review (AHAR)</h1>
+            <p class="tagline">An out-of-band identity governance engine that eliminates over-privileged cloud access by converting historical <span class="highlight-text">AWS CloudTrail telemetry</span> into deterministic, least-privilege IAM policies.</p>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <h4>Core Tech</h4>
+                    <p>Python, AWS IAM, Pandas</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Methodology</h4>
+                    <p>Lattice Theory & Set Union</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Attack Surface Reduction</h4>
+                    <p class="highlight-text" id="metaReduction">99.86% Average</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Execution</h4>
+                    <p>Out-of-Band / Async</p>
+                </div>
             </div>
-            <p style="font-size: 0.9rem;">
-                Select a persona to view synthesized least-privilege policy screenshots based on <span class="highlight-text">AWS CloudTrail telemetry</span>.
-            </p>
-        </div>
+        </header>
 
-        <div class="card">
-            <h3>Attack Surface Reduction</h3>
-            <div class="stat-number" id="reductionRate">99.86%</div>
-            <p style="margin-top: 0.5rem;">
-                Pruned unutilized wildcard capabilities via <span class="highlight-text">deterministic lattice matching</span>.
-            </p>
-        </div>
+        <!-- Executive Summary -->
+        <section>
+            <h2>01. Executive Overview</h2>
+            <p>Modern cloud environments frequently suffer from the <span class="highlight-text">Over-Privilege Gap</span>—the discrepancy between assigned structural administrative rights and actual daily operational needs. To minimize developer friction, roles are often provisioned with wildcards (e.g., <code>"Action": "*"</code>).</p>
+            <p>AHAR solves this challenge through deterministic set theory and time-window filtering. Rather than relying on unpredictable machine learning models, AHAR analyzes CloudTrail logs, prunes background noise, and mathematically enforces the Principle of Least Privilege (PoLP) without breaking critical administrative workflows.</p>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="number" id="cardReduction">99.86%</div>
+                    <div class="label">Average Surface Area Pruned</div>
+                </div>
+                <div class="metric-card">
+                    <div class="number">0%</div>
+                    <div class="label">Production Latency Overhead</div>
+                </div>
+                <div class="metric-card">
+                    <div class="number">100%</div>
+                    <div class="label">Deterministic Audit Precision</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Pipeline -->
+        <section>
+            <h2>02. Architecture & Pipeline</h2>
+            <p>The AHAR engine processes telemetry through a clean 4-phase unidirectional architecture:</p>
+            <p><strong>1. Telemetry Ingestion:</strong> Asynchronously ingests raw CloudTrail CSV flat files and normalizes events into standardized <code>Service:Action</code> strings.</p>
+            <p><strong>2. Temporal & Diurnal Slicing:</strong> Removes weekend logs and restricts active parsing to business hours (9:00 AM – 6:00 PM) to isolate real human activity from automated machine cron jobs.</p>
+            <p><strong>3. Set-Theoretic Union:</strong> Calculates the union $E \cup B$ between observed empirical actions ($E$) and an immutable Mandatory Security Baseline ($B$) to completely solve the cold-start problem.</p>
+            <p><strong>4. Clean-Slate JSON Compilation:</strong> Compiles fresh, compliant AWS IAM JSON manifest files from scratch using an implicit-deny strategy.</p>
+        </section>
+
+        <!-- Visual Case Study / Screenshots -->
+        <section>
+            <h2>03. Execution & Synthesized Outputs</h2>
+            <p>Below are the empirical execution logs and generated least-privilege IAM policy manifests captured from the AHAR security operations suite.</p>
+
+            <div class="showcase-grid">
+                
+                <!-- Terminal Code Execution -->
+                <div class="showcase-item">
+                    <div class="showcase-header">
+                        <div class="showcase-header-text">
+                            <h3>Engine Terminal Execution Log</h3>
+                            <p>Real-time processing log demonstrating asynchronous ingestion, noise reduction, and persona segregation.</p>
+                        </div>
+                    </div>
+                    <div class="img-container">
+                        <img src="Code.png" alt="AHAR Engine Code Execution Screenshot">
+                    </div>
+                </div>
+
+                <!-- Interactive Dropdown Switcher for Policies -->
+                <div class="showcase-item">
+                    <div class="showcase-header">
+                        <div class="showcase-header-text">
+                            <h3 id="policyTitle">Hardened Network Admin Policy</h3>
+                            <p id="policyDesc">Synthesized JSON manifest restricting network operations strictly to EC2 metadata and VPC read operations.</p>
+                        </div>
+                        <div class="dropdown-controls">
+                            <label for="personaSelect">Select Persona:</label>
+                            <select id="personaSelect" onchange="updatePersona()">
+                                <option value="NetworkAdmin">AHAR_Toxic_NetworkAdmin</option>
+                                <option value="Auditor">AHAR_Toxic_Auditor</option>
+                                <option value="DataScientist">AHAR_Toxic_DataScientist</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="img-container">
+                        <img id="policyImg" src="Network Admin policy.png" alt="Generated Policy Screenshot">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
-    <div class="card" style="margin-bottom: 2rem;">
-        <h3>Engine Terminal Execution Log</h3>
-        <div class="image-container">
-            <img src="Code.png" alt="AHAR Execution Code Screenshot">
-        </div>
-    </div>
+    <footer>
+        <p>AHAR Project Portfolio Case Study &copy; 2026</p>
+    </footer>
 
-    <div class="card">
-        <h3>Generated AWS IAM JSON Policy Manifest</h3>
-        <div class="image-container">
-            <img id="policyImage" src="Network Admin policy.png" alt="Generated Policy Screenshot">
-        </div>
-    </div>
-</div>
+    <script>
+        const personas = {
+            NetworkAdmin: {
+                title: "Hardened Network Admin Policy",
+                desc: "Synthesized JSON manifest restricting network operations strictly to EC2 metadata and VPC read operations.",
+                image: "Network Admin policy.png",
+                reduction: "99.86%"
+            },
+            Auditor: {
+                title: "Hardened Security Auditor Policy",
+                desc: "Pruned policy matrix restricting the auditor persona exclusively to read-only IAM and AWS Config inspection actions.",
+                image: "Auditor policy.png",
+                reduction: "99.88%"
+            },
+            DataScientist: {
+                title: "Hardened Data Scientist Policy",
+                desc: "Minimal S3 object storage authorization matrix fused with caller identity baselines.",
+                image: "Datascientist policy.png",
+                reduction: "99.90%"
+            }
+        };
 
-<script>
-    const data = {
-        NetworkAdmin: {
-            image: "Network Admin policy.png",
-            reduction: "99.86%"
-        },
-        Auditor: {
-            image: "Auditor policy.png",
-            reduction: "99.88%"
-        },
-        DataScientist: {
-            image: "Datascientist policy.png",
-            reduction: "99.90%"
+        function updatePersona() {
+            const selected = document.getElementById("personaSelect").value;
+            const data = personas[selected];
+
+            // Update policy card content
+            document.getElementById("policyTitle").innerText = data.title;
+            document.getElementById("policyDesc").innerText = data.desc;
+            document.getElementById("policyImg").src = data.image;
+            document.getElementById("policyImg").alt = `${data.title} Screenshot`;
+
+            // Update reduction metrics
+            document.getElementById("cardReduction").innerText = data.reduction;
+            document.getElementById("metaReduction").innerText = `${data.reduction} Average`;
         }
-    };
-
-    function updateDashboard() {
-        const selected = document.getElementById("personaSelect").value;
-        const personaData = data[selected];
-
-        // Update Reduction Rate
-        document.getElementById("reductionRate").innerText = personaData.reduction;
-
-        // Update Policy Screenshot
-        document.getElementById("policyImage").src = personaData.image;
-        document.getElementById("policyImage").alt = `${selected} Policy Screenshot`;
-    }
-
-    // Initialize on load
-    updateDashboard();
-</script>
-
+    </script>
 </body>
 </html>
