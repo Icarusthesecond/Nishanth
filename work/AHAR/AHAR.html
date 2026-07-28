@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHAR - Automated Historical Access Review Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #f8fafc;
+            --heading-color: #566f8e;
+            --accent-blue: #133765;
+            --text-main: #000000;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        h1, h3 {
+            color: var(--heading-color);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-main);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+
+        .control-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 2px solid var(--accent-blue);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .image-container {
+            width: 100%;
+            text-align: center;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-text {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>AHAR Security Operations Center</h1>
+        <p class="subtitle">Automated Historical Access Review & IAM Synthesis Dashboard</p>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Persona Selection</h3>
+            <div class="control-group">
+                <label for="personaSelect">Select Target User Persona:</label>
+                <select id="personaSelect" onchange="updateDashboard()">
+                    <option value="NetworkAdmin">AHAR_Toxic_NetworkAdmin</option>
+                    <option value="Auditor">AHAR_Toxic_Auditor</option>
+                    <option value="DataScientist">AHAR_Toxic_DataScientist</option>
+                </select>
+            </div>
+            <p style="font-size: 0.9rem;">
+                Select a persona to view synthesized least-privilege policy screenshots based on <span class="highlight-text">AWS CloudTrail telemetry</span>.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Attack Surface Reduction</h3>
+            <div class="stat-number" id="reductionRate">99.86%</div>
+            <p style="margin-top: 0.5rem;">
+                Pruned unutilized wildcard capabilities via <span class="highlight-text">deterministic lattice matching</span>.
+            </p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+        <h3>Engine Terminal Execution Log</h3>
+        <div class="image-container">
+            <img src="Code.png" alt="AHAR Execution Code Screenshot">
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Generated AWS IAM JSON Policy Manifest</h3>
+        <div class="image-container">
+            <img id="policyImage" src="Network Admin policy.png" alt="Generated Policy Screenshot">
+        </div>
+    </div>
+</div>
+
+<script>
+    const data = {
+        NetworkAdmin: {
+            image: "Network Admin policy.png",
+            reduction: "99.86%"
+        },
+        Auditor: {
+            image: "Auditor policy.png",
+            reduction: "99.88%"
+        },
+        DataScientist: {
+            image: "Datascientist policy.png",
+            reduction: "99.90%"
+        }
+    };
+
+    function updateDashboard() {
+        const selected = document.getElementById("personaSelect").value;
+        const personaData = data[selected];
+
+        // Update Reduction Rate
+        document.getElementById("reductionRate").innerText = personaData.reduction;
+
+        // Update Policy Screenshot
+        document.getElementById("policyImage").src = personaData.image;
+        document.getElementById("policyImage").alt = `${selected} Policy Screenshot`;
+    }
+
+    // Initialize on load
+    updateDashboard();
+</script>
+
+</body>
+</html>
