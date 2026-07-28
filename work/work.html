@@ -29,7 +29,7 @@
         }
 
         .project-item {
-            font-family: 'Montreal-Bold';
+            font-family: 'Montreal-Bold', sans-serif;
             font-size: 20px;
             font-weight: 700;
             padding: 24px;
@@ -90,7 +90,7 @@
         }
 
         .screenshot-title {
-            font-family: 'Montreal-Regular';
+            font-family: 'Montreal-Regular', sans-serif;
             font-weight: 700;
             font-size: 15px;
             margin-bottom: 8px;
@@ -202,7 +202,7 @@
         .word-box:hover .text1 { opacity: 0; }
         .word-box:hover .text2 { opacity: 1; }
 
-        /* Transition Layer */
+        /* Slow Morph Transition Layer (1.2s) */
         #transitionOverlay {
             position: fixed;
             z-index: 9999;
@@ -210,9 +210,13 @@
             background-position: center;
             border: 2px solid #111;
             border-radius: 8px;
-            transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1); 
+            transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1);
             pointer-events: none;
             opacity: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
         }
     </style>
 </head>
@@ -260,54 +264,10 @@
                 url: "CineScope/CineScope.html",
                 screenshots: [
                     { title: "First Page", url: "CineScope/firstpage.png" },
-
                     { title: "Login View", url: "CineScope/Screenshot 2023-07-21 141053.png" },
-
                     { title: "Registration View", url: "CineScope/Screenshot 2023-07-21 141604.png" },
-
-                    { title: "User Login Interface", url: "CineScope/Screenshot 2023-07-21 155235.png" },
-
                     { title: "Main Dashboard", url: "CineScope/Screenshot 2023-07-21 140636.png" },
-
-                    { title: "Media Stream Interface", url: "CineScope/Screenshot 2023-07-21 143943.png" },
-
-                    { title: "Anime Streaming View", url: "CineScope/Screenshot 2023-07-21 153200.png" },
-
-                    { title: "Video Player with Description", url: "CineScope/Screenshot 2023-07-21 153925.png" },
-
-                    { title: "Exit Confirmation Modal", url: "CineScope/Screenshot 2023-07-21 155131.png" },
-
-                    { title: "Admin Management Portal", url: "CineScope/Screenshot 2023-07-21 160945.png" },
-
-                    { title: "Upload Video - Anime", url: "CineScope/anime.png" },
-
-                    { title: "Upload Video - Drama", url: "CineScope/drama.png" },
-
-                    { title: "Upload Video - Movie", url: "CineScope/movie.png" },
-
-                    { title: "Upload Video - Web Series", url: "CineScope/web.png" },
-
-                    { title: "Admin Delete Portal", url: "CineScope/Screenshot 2023-07-21 161050.png" },
-
-                    { title: "Delete Web Episode", url: "CineScope/Screenshot 2023-07-21 160249.png" },
-
-                    { title: "Delete Movie", url: "CineScope/Screenshot 2023-07-21 160355.png" },
-
-                    { title: "Delete Anime Episode", url: "CineScope/Screenshot 2023-07-21 160419.png" },
-
-                    { title: "Delete Drama Episode", url: "CineScope/Screenshot 2023-07-21 160448.png" },
-
-                    { title: "Delete Web Episode View", url: "CineScope/Screenshot 2023-07-21 160547.png" },
-
-                    { title: "Delete User", url: "CineScope/user.png" },
-
-                    { title: "Database Records - Web Series", url: "CineScope/webseries.png" },
-
-                    { title: "Database Schema Overview", url: "CineScope/Screenshot 2023-07-21 161143.png" },
-
-                    { title: "Database Records - Drama", url: "CineScope/dramadb.png" },
-
-                    { title: "Database Records - Movies", url: "CineScope/movies.png" }
+                    { title: "Media Stream Interface", url: "CineScope/Screenshot 2023-07-21 143943.png" }
                 ]
             },
             {
@@ -366,6 +326,7 @@
         });
 
         function renderProjects() {
+            if (!projectsContainer) return;
             projectsContainer.innerHTML = "";
             projects.forEach((project, index) => {
                 const projectItem = document.createElement("div");
@@ -479,75 +440,72 @@
             overlayBackdrop.classList.remove("visible");
         }
 
-/* --- FIXED DYNAMIC EXPAND & PAGE REDIRECT TRANSITION LOGIC --- */
-function triggerMorphTransition(projectIndex) {
-    const project = projects[projectIndex];
-    const activeImage = screenshotsOverlay.querySelector(".screenshot-container.active img");
-    
-    let startRect;
-    let imageSrc = "";
+        /* Slowed-down morph transition (1.2s) */
+        function triggerMorphTransition(projectIndex) {
+            const project = projects[projectIndex];
+            const activeImage = screenshotsOverlay.querySelector(".screenshot-container.active img");
+            
+            let startRect;
+            let imageSrc = "";
 
-    // 1. Fallback directly to project data if active hover image element isn't found
-    if (activeImage && activeImage.complete && activeImage.naturalWidth !== 0) {
-        startRect = activeImage.getBoundingClientRect();
-        imageSrc = activeImage.src;
-    } else {
-        // Fallback bounds centered on screen or over the hover box
-        const overlayRect = screenshotsOverlay.getBoundingClientRect();
-        if (overlayRect.width > 0) {
-            startRect = overlayRect;
-        } else {
-            startRect = { 
-                left: window.innerWidth / 2 - 200, 
-                top: window.innerHeight / 2 - 150, 
-                width: 400, 
-                height: 300 
-            };
-        }
-        imageSrc = project.screenshots[currentScreenshotIndex] ? 
-                   project.screenshots[currentScreenshotIndex].url : 
-                   project.screenshots[0].url;
-    }
+            if (activeImage && activeImage.complete && activeImage.naturalWidth !== 0) {
+                startRect = activeImage.getBoundingClientRect();
+                imageSrc = activeImage.src;
+            } else {
+                const overlayRect = screenshotsOverlay.getBoundingClientRect();
+                if (overlayRect.width > 0) {
+                    startRect = overlayRect;
+                } else {
+                    startRect = { 
+                        left: window.innerWidth / 2 - 200, 
+                        top: window.innerHeight / 2 - 150, 
+                        width: 400, 
+                        height: 300 
+                    };
+                }
+                imageSrc = project.screenshots[currentScreenshotIndex] ? 
+                           project.screenshots[currentScreenshotIndex].url : 
+                           project.screenshots[0].url;
+            }
 
-    // 2. Configure transition element BEFORE hiding overlay
-    transitionOverlay.style.backgroundImage = `url('${imageSrc}')`;
-    transitionOverlay.style.backgroundSize = "cover";
-    transitionOverlay.style.backgroundPosition = "center";
-    transitionOverlay.style.left = `${startRect.left}px`;
-    transitionOverlay.style.top = `${startRect.top}px`;
-    transitionOverlay.style.width = `${startRect.width}px`;
-    transitionOverlay.style.height = `${startRect.height}px`;
-    transitionOverlay.style.borderRadius = "8px";
-    transitionOverlay.style.opacity = "1";
+            transitionOverlay.style.backgroundImage = `url('${imageSrc}')`;
+            transitionOverlay.style.backgroundSize = "cover";
+            transitionOverlay.style.backgroundPosition = "center";
+            transitionOverlay.style.left = `${startRect.left}px`;
+            transitionOverlay.style.top = `${startRect.top}px`;
+            transitionOverlay.style.width = `${startRect.width}px`;
+            transitionOverlay.style.height = `${startRect.height}px`;
+            transitionOverlay.style.borderRadius = "8px";
+            transitionOverlay.style.opacity = "1";
 
-    // 3. Hide floating popover now that coordinates are locked
-    hideScreenshots();
+            hideScreenshots();
 
-    // 4. Force browser repaint before executing full-screen expansion
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            transitionOverlay.style.left = "0px";
-            transitionOverlay.style.top = "0px";
-            transitionOverlay.style.width = "100vw";
-            transitionOverlay.style.height = "100vh";
-            transitionOverlay.style.borderRadius = "0px";
-        });
-    });
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    transitionOverlay.style.left = "0px";
+                    transitionOverlay.style.top = "0px";
+                    transitionOverlay.style.width = "100vw";
+                    transitionOverlay.style.height = "100vh";
+                    transitionOverlay.style.borderRadius = "0px";
+                });
+            });
 
-    // 5. Navigate to project URL after transition completes
-    setTimeout(() => {
-        if (project.url && project.url !== "#") {
-            window.location.href = project.url;
-        } else {
-            // Smooth reset if URL is a placeholder '#'
-            transitionOverlay.style.opacity = "0";
             setTimeout(() => {
-                transitionOverlay.style.width = "0";
-                transitionOverlay.style.height = "0";
+                if (project.url && project.url !== "#") {
+                    window.location.href = project.url;
+                } else {
+                    transitionOverlay.style.opacity = "0";
+                    setTimeout(() => {
+                        transitionOverlay.style.width = "0";
+                        transitionOverlay.style.height = "0";
+                    }, 1200);
+                }
             }, 1200);
         }
-    }, 1200);
-}
+
+        // Initialize grid on DOM load
+        document.addEventListener("DOMContentLoaded", renderProjects);
+        renderProjects();
     </script>
 </body>
 </html>
